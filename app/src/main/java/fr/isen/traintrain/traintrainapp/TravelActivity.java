@@ -1,6 +1,7 @@
 package fr.isen.traintrain.traintrainapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,18 +18,34 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 import fr.isen.traintrain.traintrainapp.AsyncTask.StationAsyncTask;
+import fr.isen.traintrain.traintrainapp.Entity.AsyncResponse;
+import fr.isen.traintrain.traintrainapp.Entity.Station;
 
 public class TravelActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,AsyncResponse {
 
     protected ProgressDialog progressDialog;
+    protected ArrayList<Station> stations = new ArrayList<Station>();
+    protected ListIterator<Station> itr;
+    protected String [] stationsName;
+    protected ArrayList<String> test = new ArrayList<String>();
+    protected TextView gareDepart;
+    protected Station gareDepartChoisi;
+    protected TextView gareArrivee;
+    protected Station gareArriveeChoisi;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel);
+        this.stationsName = new String[]{};
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -50,7 +67,11 @@ public class TravelActivity extends AppCompatActivity
 
         StationAsyncTask ipinf=new StationAsyncTask(progressDialog,this);
 
+        ipinf.delegate = this;
+
         ipinf.execute();
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -62,17 +83,11 @@ public class TravelActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, COUNTRIES);
-        AutoCompleteTextView textView =findViewById(R.id.gare_depart);
 
-        textView.setAdapter(adapter);
     }
 
 
-    private static final String[] COUNTRIES = new String[] {
-            "Belgium", "France", "Italy", "Germany", "Spain"
-    };
+
 
     @Override
     public void onBackPressed() {
@@ -126,6 +141,70 @@ public class TravelActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void processFinish(ArrayList<Station> output) {
+
+        Log.d("activity","lol");
+
+        this.stations = output;
 
 
+        this.itr = this.stations.listIterator();
+        while (itr.hasNext()){
+            //System.out.println("activity " + itr.next().getName());
+            this.test.add(itr.next().getName());
+        }
+
+
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, this.test);
+        AutoCompleteTextView textView =findViewById(R.id.gare_depart);
+
+        textView.setAdapter(adapter);
+
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, this.test);
+        AutoCompleteTextView textView2 =findViewById(R.id.gare_arrivee);
+
+        textView2.setAdapter(adapter2);
+
+    }
+
+    public void search(View view){
+        Log.d("lol","lol");
+        this.gareDepart=(TextView)findViewById(R.id.gare_depart);
+        this.gareArrivee=(TextView)findViewById(R.id.gare_arrivee);
+        this.itr = this.stations.listIterator();
+
+        Station temp;
+
+
+
+        while (itr.hasNext()){
+            //System.out.println("activity " + itr.next().getName());
+            temp = itr.next();
+
+            if(this.gareDepart.getText().toString().equals(temp.getName())){
+                Log.d("gare deépart",this.gareDepart.getText().toString());
+                Log.d("itr = ",temp.getName());
+                this.gareDepartChoisi = temp;
+                Log.d("Gare départ selectioné","name = "+this.gareDepartChoisi.getName());
+                Log.d("Gare départ selectioné ","longitude = "+this.gareDepartChoisi.getStop_lon());
+                Log.d("Gare départ selectioné ","latitude = "+this.gareDepartChoisi.getStop_lat());
+            }
+
+            if(this.gareArrivee.getText().toString().equals(temp.getName())){
+                
+                this.gareArriveeChoisi = temp;
+                Log.d("Gare arrivee selectioné","name = "+this.gareArriveeChoisi.getName());
+                Log.d("Gare arrivee selectioné","longitude = "+this.gareArriveeChoisi.getStop_lon());
+                Log.d("Gare arrivee selectioné","latitude = "+this.gareArriveeChoisi.getStop_lat());
+            }
+
+
+        }
+    }
 }

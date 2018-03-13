@@ -2,13 +2,17 @@ package fr.isen.traintrain.traintrainapp.AsyncTask;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import fr.isen.traintrain.traintrainapp.Entity.AsyncResponse;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 import fr.isen.traintrain.traintrainapp.Parser.StationParser;
 import fr.isen.traintrain.traintrainapp.R;
@@ -24,6 +28,7 @@ public class StationAsyncTask  extends AsyncTask<String,String,ArrayList<Station
 
     protected String url = null;
     protected OkHttpClient client;
+    public AsyncResponse delegate = null;
 
 
     protected ProgressDialog progressDialog;
@@ -81,6 +86,7 @@ public class StationAsyncTask  extends AsyncTask<String,String,ArrayList<Station
 
 
                 StationParser stationParser=new StationParser(json);
+                stations = stationParser.getResult();
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -107,10 +113,13 @@ public class StationAsyncTask  extends AsyncTask<String,String,ArrayList<Station
 
         // System.out.println(ip.getCity());
         progressDialog.dismiss();
-       /* Intent intent =new Intent(currentActivity,nextView);
-        intent.putExtra("data",meteo);
+        delegate.processFinish(stations);
 
-        currentActivity.startActivity(intent);*/
+
+
+
+
+
     }
 
     @Override

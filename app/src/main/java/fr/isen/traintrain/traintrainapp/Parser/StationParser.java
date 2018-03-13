@@ -54,10 +54,10 @@ public class StationParser {
         }
 
 
-        this.itr = this.result.listIterator();
+        /*this.itr = this.result.listIterator();
         while (itr.hasNext()){
             System.out.println("looooooooooooooooooooooooooooooool2 " + itr.next().getName());
-        }
+        }*/
 
 
 
@@ -65,4 +65,11 @@ public class StationParser {
 
     }
 
+    public ArrayList<Station> getResult() {
+        return result;
+    }
+
+    public void setResult(ArrayList<Station> result) {
+        this.result = result;
+    }
 }
