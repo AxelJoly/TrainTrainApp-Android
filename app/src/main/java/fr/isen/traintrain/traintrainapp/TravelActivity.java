@@ -23,8 +23,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import fr.isen.traintrain.traintrainapp.AsyncTask.JourneyServiceTask;
 import fr.isen.traintrain.traintrainapp.AsyncTask.StationAsyncTask;
 import fr.isen.traintrain.traintrainapp.Entity.AsyncResponse;
+import fr.isen.traintrain.traintrainapp.Entity.Station;
+import fr.isen.traintrain.traintrainapp.Entity.Journey;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 
 public class TravelActivity extends AppCompatActivity
@@ -174,8 +177,6 @@ public class TravelActivity extends AppCompatActivity
 
         Station temp;
 
-
-
         while (itr.hasNext()){
             //System.out.println("activity " + itr.next().getName());
             temp = itr.next();
@@ -199,5 +200,9 @@ public class TravelActivity extends AppCompatActivity
 
 
         }
+
+        //Journey journey = new Journey(1, this.gareDepartChoisi, this.gareArriveeChoisi);
+
+        //new JourneyServiceTask().execute(journey);
     }
 }
