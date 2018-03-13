@@ -153,6 +153,17 @@ public class TravelActivity extends AppCompatActivity
 
         }
 
+        else if(id == R.id.nav_recherche_contact){
+            Intent intent =new Intent(this,ShowContactActivity.class);
+
+            this.startActivity(intent);
+        }
+        else if(id == R.id.nav_ajout_contact){
+            Intent intent =new Intent(this,AddContactActivity.class);
+
+            this.startActivity(intent);
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

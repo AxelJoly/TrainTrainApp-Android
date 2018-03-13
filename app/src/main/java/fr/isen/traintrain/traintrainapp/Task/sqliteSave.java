@@ -14,6 +14,7 @@ public final class sqliteSave {
     /* Inner class that defines the table contents */
     public static class FeedEntry implements BaseColumns {
         public static final String TABLE_NAME_JOURNEY = "journey";
+        public static final String TABLE_NAME_CONTACT = "contact";
         public static final String COLUMN_NAME_ID_DEPART = "id_depart";
         public static final String COLUMN_NAME_ID_ARRIVEE = "id_arrivee";
         public static final String COLUMN_NAME_DEPART = "name_depart";
@@ -22,6 +23,8 @@ public final class sqliteSave {
         public static final String COLUMN_NAME_LATITUDE_ARRIVEE = "latitude_arrivee";
         public static final String COLUMN_NAME_LONGITUDE_DEPART = "longitude_depart";
         public static final String COLUMN_NAME_LONGITUDE_ARRIVEE = "longitude_arrivee";
+        public static final String COLUMN_NAME_CONTACT = "name";
+        public static final String COLUMN_NAME_PHONE_NUMBER = "phoneNumber";
     }
 
 
@@ -40,8 +43,19 @@ public final class sqliteSave {
                     FeedEntry.COLUMN_NAME_LONGITUDE_DEPART + " VARCHAR(32),"+
                     FeedEntry.COLUMN_NAME_LONGITUDE_ARRIVEE + " VARCHAR(32))";
 
+
+    public static final String SQL_CREATE_ENTRIES2 =
+            "CREATE TABLE " + FeedEntry.TABLE_NAME_CONTACT + " (" +
+                    FeedEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    FeedEntry.COLUMN_NAME_CONTACT + " VARCHAR(32)," +
+                    FeedEntry.COLUMN_NAME_PHONE_NUMBER + " VARCHAR(32))";
+
+
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME_JOURNEY;
+
+    public static final String SQL_DELETE_ENTRIES2 =
+            "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME_CONTACT;
 
 
 }
