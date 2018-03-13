@@ -1,7 +1,9 @@
 package fr.isen.traintrain.traintrainapp;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -29,6 +31,10 @@ import fr.isen.traintrain.traintrainapp.Entity.AsyncResponse;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 import fr.isen.traintrain.traintrainapp.Entity.Journey;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
+import fr.isen.traintrain.traintrainapp.Task.FeedReaderDbHelper;
+import fr.isen.traintrain.traintrainapp.Task.sqliteSave;
+
+import static java.security.AccessController.getContext;
 
 public class TravelActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,AsyncResponse {
@@ -77,6 +83,14 @@ public class TravelActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+
+
+
+
 
 
 
@@ -201,8 +215,22 @@ public class TravelActivity extends AppCompatActivity
 
         }
 
-        //Journey journey = new Journey(1, this.gareDepartChoisi, this.gareArriveeChoisi);
+        Journey journey = new Journey(1, this.gareDepartChoisi, this.gareArriveeChoisi);
 
-        //new JourneyServiceTask().execute(journey);
+        new JourneyServiceTask().execute(journey);
+    }
+
+    public void favoris(View view){
+        FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+// Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_DEPART, "lol");
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_ARRIVEE, "lol2");
+
+// Insert the new row, returning the primary key value of the new row
+        long newRowId = db.insert(sqliteSave.FeedEntry.TABLE_NAME_JOURNEY, null, values);
     }
 }

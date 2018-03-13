@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TrainTrainApp.iml" filepath="$PROJECT_DIR$/TrainTrainApp.iml" />
+      <module fileurl="file://C:\Users\maxim\AndroidStudioProjects\TrainTrainApp\TrainTrainApp-Android\TrainTrainApp.iml" filepath="C:\Users\maxim\AndroidStudioProjects\TrainTrainApp\TrainTrainApp-Android\TrainTrainApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TrainTrainApp-Android.iml" filepath="$PROJECT_DIR$/TrainTrainApp-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

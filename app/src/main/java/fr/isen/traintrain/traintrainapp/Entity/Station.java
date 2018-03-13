@@ -15,17 +15,7 @@ public class Station {
     protected String location_type;
     protected String parent_station;
 
-    public Station(String stop_id, String name, String stop_lat, String stop_lon, String stop_desc, String zone_id, String stop_url, String location_type, String parent_station) {
-        this.stop_id = stop_id;
-        this.name = name;
-        this.stop_lat = stop_lat;
-        this.stop_lon = stop_lon;
-        this.stop_desc = stop_desc;
-        this.zone_id = zone_id;
-        this.stop_url = stop_url;
-        this.location_type = location_type;
-        this.parent_station = parent_station;
-    }
+
 
     public String getParent_station() {
         return parent_station;
