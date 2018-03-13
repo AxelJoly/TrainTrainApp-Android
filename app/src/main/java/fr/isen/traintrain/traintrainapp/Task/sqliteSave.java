@@ -16,11 +16,11 @@ public final class sqliteSave {
         public static final String TABLE_NAME_JOURNEY = "journey";
         public static final String COLUMN_NAME_ID_DEPART = "id_depart";
         public static final String COLUMN_NAME_ID_ARRIVEE = "id_arrivee";
-        public static final String COLUMN_NAME_DEPART = "name_depart,";
-        public static final String COLUMN_NAME_ARRIVEE = "name_arrivee,";
-        public static final String COLUMN_NAME_LATITUDE_DEPART = "latitude_depart,";
-        public static final String COLUMN_NAME_LATITUDE_ARRIVEE = "latitude_arrivee,";
-        public static final String COLUMN_NAME_LONGITUDE_DEPART = "longitude_depart,";
+        public static final String COLUMN_NAME_DEPART = "name_depart";
+        public static final String COLUMN_NAME_ARRIVEE = "name_arrivee";
+        public static final String COLUMN_NAME_LATITUDE_DEPART = "latitude_depart";
+        public static final String COLUMN_NAME_LATITUDE_ARRIVEE = "latitude_arrivee";
+        public static final String COLUMN_NAME_LONGITUDE_DEPART = "longitude_depart";
         public static final String COLUMN_NAME_LONGITUDE_ARRIVEE = "longitude_arrivee";
     }
 

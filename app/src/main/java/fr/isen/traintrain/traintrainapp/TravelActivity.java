@@ -3,8 +3,10 @@ package fr.isen.traintrain.traintrainapp;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -23,6 +25,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 
 import fr.isen.traintrain.traintrainapp.AsyncTask.JourneyServiceTask;
@@ -128,6 +131,7 @@ public class TravelActivity extends AppCompatActivity
             return true;
         }
 
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -143,6 +147,9 @@ public class TravelActivity extends AppCompatActivity
         } else if (id == R.id.nav_favoris) {
 
             Log.d("main activity","favoris");
+            Intent intent =new Intent(this,FavorisActivity.class);
+
+            this.startActivity(intent);
 
         }
 
@@ -221,16 +228,59 @@ public class TravelActivity extends AppCompatActivity
     }
 
     public void favoris(View view){
+
+
+        this.gareDepart=(TextView)findViewById(R.id.gare_depart);
+        this.gareArrivee=(TextView)findViewById(R.id.gare_arrivee);
+        this.itr = this.stations.listIterator();
+
+        Station temp;
+
+        while (itr.hasNext()){
+            //System.out.println("activity " + itr.next().getName());
+            temp = itr.next();
+
+            if(this.gareDepart.getText().toString().equals(temp.getName())){
+                Log.d("gare deépart",this.gareDepart.getText().toString());
+                Log.d("itr = ",temp.getName());
+                this.gareDepartChoisi = temp;
+                Log.d("Gare départ selectioné","name = "+this.gareDepartChoisi.getName());
+                Log.d("Gare départ selectioné ","longitude = "+this.gareDepartChoisi.getStop_lon());
+                Log.d("Gare départ selectioné ","latitude = "+this.gareDepartChoisi.getStop_lat());
+            }
+
+            if(this.gareArrivee.getText().toString().equals(temp.getName())){
+
+                this.gareArriveeChoisi = temp;
+                Log.d("Gare arrivee selectioné","name = "+this.gareArriveeChoisi.getName());
+                Log.d("Gare arrivee selectioné","longitude = "+this.gareArriveeChoisi.getStop_lon());
+                Log.d("Gare arrivee selectioné","latitude = "+this.gareArriveeChoisi.getStop_lat());
+            }
+
+
+        }
         FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
 // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_DEPART, "lol");
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_ARRIVEE, "lol2");
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_DEPART, this.gareDepartChoisi.getName());
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_ARRIVEE, this.gareArriveeChoisi.getName());
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_ID_DEPART, this.gareDepartChoisi.getStop_id());
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_ID_ARRIVEE, this.gareArriveeChoisi.getStop_id());
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_ARRIVEE, this.gareArriveeChoisi.getStop_lat());
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_DEPART, this.gareDepartChoisi.getStop_lat());
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_ARRIVEE, this.gareArriveeChoisi.getStop_lon());
+        values.put(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_DEPART, this.gareDepartChoisi.getStop_lon());
 
 // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(sqliteSave.FeedEntry.TABLE_NAME_JOURNEY, null, values);
+
+
+
+        Log.d("lol","looooooooooooooooooooooooooooooooooooooooooooooooool");
+
+
     }
 }
