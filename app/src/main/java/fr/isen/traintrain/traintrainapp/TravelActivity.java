@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +35,15 @@ import java.util.ListIterator;
 import fr.isen.traintrain.traintrainapp.AsyncTask.JourneyServiceTask;
 import fr.isen.traintrain.traintrainapp.AsyncTask.StationAsyncTask;
 import fr.isen.traintrain.traintrainapp.Entity.AsyncResponse;
+import fr.isen.traintrain.traintrainapp.Entity.Contact;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 import fr.isen.traintrain.traintrainapp.Entity.Journey;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 import fr.isen.traintrain.traintrainapp.Task.FeedReaderDbHelper;
 import fr.isen.traintrain.traintrainapp.Task.sqliteSave;
+import com.facebook.messenger.MessengerUtils;
+import com.facebook.messenger.MessengerThreadParams;
+import com.facebook.messenger.ShareToMessengerParams;
 
 import static java.security.AccessController.getContext;
 
@@ -64,6 +70,9 @@ public class TravelActivity extends AppCompatActivity
         this.geoloc = findViewById(R.id.geoloc);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
 
 
 
@@ -97,9 +106,92 @@ public class TravelActivity extends AppCompatActivity
             }
         });
 
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        /// Share with sms
+        ////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     public void toGeoloc(View view) {
+
+
+      /*  FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
+
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+
+        String[] projection = {
+                BaseColumns._ID,
+                sqliteSave.FeedEntry.COLUMN_NAME_CONTACT,
+                sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER,
+
+        };
+
+
+
+        Cursor cursor = db.query(
+                sqliteSave.FeedEntry.TABLE_NAME_CONTACT,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                null,              // The columns for the WHERE clause
+                null,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null             // The sort order
+        );
+
+
+
+
+        while(cursor.moveToNext()) {
+
+
+
+
+            Log.d("name = ",cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_CONTACT)));
+            Log.d("phone number = ",cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER)));
+
+
+
+            //  this.trips.add(new Trip(cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ID_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ID_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_ARRIVEE))));
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER))));
+            intent.putExtra("sms_body", "Ceci est un message envoyer avec mon application traintrain app en version android natif");
+            startActivity(intent);
+
+
+        }
+        cursor.close();*/
+
+
+      /////////////////////////////////////////////////////////////////////////////////////////////
+        /// Share with messenger
+        ///////////////////////////////////////////////////////////////////////////////////////////
+
+       /* Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent
+                .putExtra(Intent.EXTRA_TEXT,
+                        "Ceci est un message envoyer avec mon application traintrain app en version android natif");
+        sendIntent.setType("text/plain");
+        sendIntent.setPackage("com.facebook.orca");
+        try {
+            startActivity(sendIntent);
+        }
+        catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this,"Please Install Facebook Messenger", Toast.LENGTH_LONG).show();
+        }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         Intent intent = new Intent(this, GeolocActivity.class);
         startActivity(intent);
