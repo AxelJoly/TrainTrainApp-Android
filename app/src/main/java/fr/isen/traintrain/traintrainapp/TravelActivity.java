@@ -36,6 +36,7 @@ import fr.isen.traintrain.traintrainapp.AsyncTask.JourneyServiceTask;
 import fr.isen.traintrain.traintrainapp.AsyncTask.StationAsyncTask;
 import fr.isen.traintrain.traintrainapp.Entity.AsyncResponse;
 import fr.isen.traintrain.traintrainapp.Entity.Contact;
+import fr.isen.traintrain.traintrainapp.Entity.Geoloc;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 import fr.isen.traintrain.traintrainapp.Entity.Journey;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
@@ -68,12 +69,20 @@ public class TravelActivity extends AppCompatActivity
         setContentView(R.layout.activity_travel);
         this.stationsName = new String[]{};
         this.geoloc = findViewById(R.id.geoloc);
+        this.gareDepart=(TextView)findViewById(R.id.gare_depart);
+        this.gareArrivee=(TextView)findViewById(R.id.gare_arrivee);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Intent intent = this.getIntent();
+        String departure = intent.getStringExtra("departure");
 
-
-
-
+        if(departure != null){
+            Geoloc geolocBind = Geoloc.fromJson(departure);
+            Log.d("hello", geolocBind.getStation().getName());
+            this.gareDepartChoisi = geolocBind.getStation();
+            Log.d("hello", "Ca passe");
+            this.gareDepart.setText(this.gareDepartChoisi.getName());
+        }
 
 
         progressDialog = new ProgressDialog(this);
@@ -299,8 +308,7 @@ public class TravelActivity extends AppCompatActivity
 
     public void search(View view){
         Log.d("lol","lol");
-        this.gareDepart=(TextView)findViewById(R.id.gare_depart);
-        this.gareArrivee=(TextView)findViewById(R.id.gare_arrivee);
+
         this.itr = this.stations.listIterator();
 
         Station temp;

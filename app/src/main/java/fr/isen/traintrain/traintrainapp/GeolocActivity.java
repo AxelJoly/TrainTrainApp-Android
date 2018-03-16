@@ -18,7 +18,11 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,24 +30,35 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ListIterator;
 
+import fr.isen.traintrain.traintrainapp.Adapter.GeolocAdapter;
+import fr.isen.traintrain.traintrainapp.Adapter.MyAdapter;
 import fr.isen.traintrain.traintrainapp.AsyncTask.StationAsyncTask;
 import fr.isen.traintrain.traintrainapp.Entity.AsyncResponse;
+import fr.isen.traintrain.traintrainapp.Entity.Geoloc;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 
 public class GeolocActivity extends AppCompatActivity implements LocationListener, AsyncResponse {
     final String TAG = "GPS";
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private final static int ALL_PERMISSIONS_RESULT = 101;
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
     private static final int REQUEST_READ_CONTACTS = 444;
+
     protected ProgressDialog progressDialog;
     protected ArrayList<Station> stations = new ArrayList<Station>();
     protected ListIterator<Station> itr;
     protected    ArrayList<Station> stationsFiltered = new ArrayList<Station>();
     protected ListIterator<Station> itrFiltered;
-    protected ArrayList<String> distance;
+    protected ArrayList<Geoloc> geoloc;
+    protected ListIterator<Geoloc> itrGeoloc;
+
     Cursor cursor;
     int counter;
     LocationManager locationManager;
@@ -93,6 +108,8 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
             // get location
             getLocation();
         }
+
+
     }
 
     @Override
@@ -287,13 +304,10 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
     }
 
     private void findClosestStations(Location station){
-        System.out.println("Ca passe");
-        StationAsyncTask ipinf = new StationAsyncTask(progressDialog,this);
+        StationAsyncTask ipinf = new StationAsyncTask(progressDialog, this);
         ipinf.delegate = this;
         ipinf.execute();
-        Double lat1 = station.getLatitude();
-        Double lon1 = station.getLongitude();
-        haversine(lat1, lon1);
+
 
         }
 
@@ -306,15 +320,24 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
 
         this.stations = output;
         System.out.println("Ca passe");
-        }
+        this.itr = this.stations.listIterator();
+        this.itrFiltered = this.stationsFiltered.listIterator();
+        this.geoloc = new ArrayList<Geoloc>();
+        this.itrGeoloc = this.geoloc.listIterator();
+
+        Double lat1 = this.loc.getLatitude();
+        Double lon1 = this.loc.getLongitude();
+        Log.d("", lon1 + ";" + lat1);
+        haversine(lat1, lon1);
+    }
 
 
     public void haversine(Double lat1, Double lon1){
         int index = 0;
 
 
-        while (itr.hasNext()) {
 
+        while (itr.hasNext()) {
 
             Station temp = this.itr.next();
             Double lat2 = Double.parseDouble(temp.getStop_lat());
@@ -332,21 +355,82 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
 
             if (d < 10) {
 
+                boolean repeated = false;
+
+                    for (Geoloc _c: this.geoloc) {
+                        if(_c.getStation().getName().equals(temp.getName()))
+                            repeated = true;
+                    }
+                    if(!repeated) {
+                       // this.stationsFiltered.add(temp);
+                        this.geoloc.add(new Geoloc(temp, Double.toString(d)));
+                        Log.d("Value", temp.getName());
+                    }
                 }
-                    if(!stationsFiltered.contains(temp)){
-                        this.stationsFiltered.add(temp);
-                        this.distance.add(Double.toString(d));
-                        System.out.println("value of index " + index + ": " + d + "arret:" + temp.getName());
-                        index++;
-                }
+                //this.stationsFiltered.add(temp);
+    //                        this.distance.add(Double.toString(d));
+                //Log.d("INFO", "value of index " + index + ": " + d + "arret:" + temp.getName());
+
                 index++;
+
+
+
             }
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.listGeoloc);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+        // specify an adapter (see also next example)
+        mAdapter = new GeolocAdapter(this.geoloc, this.getApplicationContext());
+        mRecyclerView.setAdapter(mAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                1);
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+
+
         }
+
+
+
 
 
     public Double toRad(Double value) {
         return value * Math.PI / 180;
     }
+
+    public ArrayList<Station> deleteDuplicate(ArrayList<Station> arrayToClean){
+        ArrayList<Station> l2 = new ArrayList<Station>();
+
+        Iterator iterator1 = arrayToClean.iterator();
+        boolean repeated = false;
+
+        while (iterator1.hasNext())
+        {
+            Station c1 = (Station) iterator1.next();
+            for (Station _c: l2) {
+                if(_c.getName().equals(c1.getName()))
+                    repeated = true;
+            }
+            if(!repeated) {
+                l2.add(c1);
+                Log.d("Value", c1.getName());
+            }
+        }
+        return l2;
+    }
+
+    public void initRecycleView(){
+
+    }
+
 
 }
 
