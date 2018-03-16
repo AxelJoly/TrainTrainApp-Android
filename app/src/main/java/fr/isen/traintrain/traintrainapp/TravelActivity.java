@@ -1,5 +1,6 @@
 package fr.isen.traintrain.traintrainapp;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ import fr.isen.traintrain.traintrainapp.Task.sqliteSave;
 import static java.security.AccessController.getContext;
 
 public class TravelActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,AsyncResponse {
+        implements NavigationView.OnNavigationItemSelectedListener,AsyncResponse{
 
     protected ProgressDialog progressDialog;
     protected ArrayList<Station> stations = new ArrayList<Station>();
@@ -51,6 +53,7 @@ public class TravelActivity extends AppCompatActivity
     protected Station gareDepartChoisi;
     protected TextView gareArrivee;
     protected Station gareArriveeChoisi;
+    public Button geoloc;
 
 
     @Override
@@ -58,6 +61,7 @@ public class TravelActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel);
         this.stationsName = new String[]{};
+        this.geoloc = findViewById(R.id.geoloc);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -87,19 +91,19 @@ public class TravelActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
-
-
-
-
-
-
-
+        geoloc.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                toGeoloc(v);
+            }
+        });
 
     }
 
+    public void toGeoloc(View view) {
 
+        Intent intent = new Intent(this, GeolocActivity.class);
+        startActivity(intent);
+    }
 
 
     @Override
@@ -294,4 +298,6 @@ public class TravelActivity extends AppCompatActivity
 
 
     }
+
+
 }
