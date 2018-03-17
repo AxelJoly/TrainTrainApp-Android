@@ -47,8 +47,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
         // holder.bindUser(users.get(position));
 
-        holder.mGareDepartTextView.setText(trips.get(position).getName_depart());
-        holder.mGareArriveeTextView.setText(trips.get(position).getName_arrivee());
+        holder.mGareDepartTextView.setText("De: "+trips.get(position).getName_depart());
+        holder.mGareArriveeTextView.setText("A: "+trips.get(position).getName_arrivee());
 
     }
 

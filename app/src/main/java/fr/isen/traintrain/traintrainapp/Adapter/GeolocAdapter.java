@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import fr.isen.traintrain.traintrainapp.Entity.Geoloc;
@@ -79,10 +80,13 @@ public class GeolocAdapter  extends RecyclerView.Adapter<GeolocAdapter.ViewHolde
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-
         Geoloc station = stations.get(position);
         holder.name.setText(station.getStation().getName());
-        holder.distance.setText(station.getDistance());
+        float dist = Float.parseFloat(station.getDistance());
+        BigDecimal bd = new BigDecimal(dist);
+        bd= bd.setScale(3,BigDecimal.ROUND_DOWN);
+        dist = bd.floatValue();
+        holder.distance.setText("Distance: "+dist + " km");
 
     }
 

@@ -1,8 +1,10 @@
 package fr.isen.traintrain.traintrainapp;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -89,17 +91,10 @@ public class TravelActivity extends AppCompatActivity
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(true);
         progressDialog.setTitle("Load");
-
         progressDialog.show();
-
         StationAsyncTask ipinf=new StationAsyncTask(progressDialog,this);
-
         ipinf.delegate = this;
-
         ipinf.execute();
-
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -122,11 +117,9 @@ public class TravelActivity extends AppCompatActivity
 
     public void toGeoloc(View view) {
 
-
       /*  FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
 
         String[] projection = {
                 BaseColumns._ID,
@@ -134,8 +127,6 @@ public class TravelActivity extends AppCompatActivity
                 sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER,
 
         };
-
-
 
         Cursor cursor = db.query(
                 sqliteSave.FeedEntry.TABLE_NAME_CONTACT,   // The table to query
@@ -146,19 +137,10 @@ public class TravelActivity extends AppCompatActivity
                 null,                   // don't filter by row groups
                 null             // The sort order
         );
-
-
-
-
         while(cursor.moveToNext()) {
-
-
-
 
             Log.d("name = ",cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_CONTACT)));
             Log.d("phone number = ",cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER)));
-
-
 
             //  this.trips.add(new Trip(cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ID_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ID_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_ARRIVEE))));
 
@@ -166,10 +148,8 @@ public class TravelActivity extends AppCompatActivity
             intent.putExtra("sms_body", "Ceci est un message envoyer avec mon application traintrain app en version android natif");
             startActivity(intent);
 
-
         }
         cursor.close();*/
-
 
       /////////////////////////////////////////////////////////////////////////////////////////////
         /// Share with messenger
@@ -190,22 +170,9 @@ public class TravelActivity extends AppCompatActivity
         }*/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         Intent intent = new Intent(this, GeolocActivity.class);
         startActivity(intent);
     }
-
 
     @Override
     public void onBackPressed() {
@@ -217,12 +184,6 @@ public class TravelActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.travel, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -233,6 +194,7 @@ public class TravelActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             return true;
         }
 
@@ -342,7 +304,8 @@ public class TravelActivity extends AppCompatActivity
         new JourneyServiceTask().execute(journey);
     }
 
-    public void favoris(View view){
+
+    public void favoris( View view){
 
 
         this.gareDepart=(TextView)findViewById(R.id.gare_depart);
@@ -391,10 +354,20 @@ public class TravelActivity extends AppCompatActivity
 
 // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(sqliteSave.FeedEntry.TABLE_NAME_JOURNEY, null, values);
+        AlertDialog alertDialog = new AlertDialog.Builder(TravelActivity.this).create();
+        alertDialog.setTitle("Ajouté aux favoris");
+        alertDialog.setMessage("Votre trajet favoris à bien été ajouté");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
 
+                        dialog.dismiss();
+                        Intent intent=new Intent(TravelActivity.this,FavorisActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        alertDialog.show();
 
-
-        Log.d("lol","looooooooooooooooooooooooooooooooooooooooooooooooool");
 
 
     }

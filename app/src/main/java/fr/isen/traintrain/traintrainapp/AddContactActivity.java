@@ -49,7 +49,7 @@ public class AddContactActivity extends AppCompatActivity {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
     static final int REQUEST_IMAGE_CAPTURE = 8;
-
+    private int count;
 
     TextView latitude, longitude;
     LocationManager locationManager;
@@ -117,7 +117,7 @@ public class AddContactActivity extends AppCompatActivity {
 
 // Insert the new row, returning the primary key value of the new row
                 long newRowId = db.insert(sqliteSave.FeedEntry.TABLE_NAME_CONTACT, null, values);
-                Toast.makeText(getApplicationContext(), "Contact : \n" + contacts.get(position).getNameContact() + "ajouté", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Contact : \n" + contacts.get(position).getNameContact() + " ajouté", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -151,6 +151,7 @@ public class AddContactActivity extends AppCompatActivity {
         contactList = new ArrayList<String>();
 
         String phoneNumber = null;
+        String phoneNumberBefore = null;
         String email = null;
 
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
@@ -183,7 +184,7 @@ public class AddContactActivity extends AppCompatActivity {
                 // Update the progress message
                 updateBarHandler.post(new Runnable() {
                     public void run() {
-                        pDialog.setMessage("Reading contacts : " + counter++ + "/" + cursor.getCount());
+                        pDialog.setMessage("Lecture des contacts : " + counter++ + "/" + cursor.getCount());
                     }
                 });
 
@@ -192,31 +193,48 @@ public class AddContactActivity extends AppCompatActivity {
 
                 int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(HAS_PHONE_NUMBER)));
 
-                if (hasPhoneNumber > 0) {
-
-                    output.append("\n First Name:" + name);
+                if (hasPhoneNumber > 0 && name!=null) {
+                    output.append("\n Nom: " + name);
                     contact.setNameContact(name);
 
                     //This is to read multiple phone numbers associated with the same contact
                     Cursor phoneCursor = contentResolver.query(PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?", new String[]{contact_id}, null);
-
-                    while (phoneCursor.moveToNext()) {
+                    phoneCursor.moveToNext();
+                    phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
+                    output.append("\n Numéro de télephone: " + phoneNumber);
+                    contact.setPhoneNumber(phoneNumber);
+                 /* count=0;
+                   while (phoneCursor.moveToNext()) {
                         phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
-                        output.append("\n Phone number:" + phoneNumber);
-                        contact.setPhoneNumber(phoneNumber);
+                        if (count!=0) {
+                            phoneCursor.moveToLast();
+                            phoneNumberBefore = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
+                            phoneCursor.moveToNext();
+                            if (phoneNumber!=phoneNumberBefore) {
 
-                    }
+                                output.append("\n Numéro de télephone: " + phoneNumber);
+                                contact.setPhoneNumber(phoneNumber);
+                            }
+                        }else {
+                            output.append("\n Numéro de télephone: " + phoneNumber);
+                            contact.setPhoneNumber(phoneNumber);
+                        }
+
+
+                        count++;
+
+                    }*/
 
                     phoneCursor.close();
 
-                    // Read every email id associated with the contact
+                /*    // Read every email id associated with the contact
                     Cursor emailCursor = contentResolver.query(EmailCONTENT_URI, null, EmailCONTACT_ID + " = ?", new String[]{contact_id}, null);
 
                     while (emailCursor.moveToNext()) {
 
                         email = emailCursor.getString(emailCursor.getColumnIndex(DATA));
 
-                        output.append("\n Email:" + email);
+                        output.append("\n Email: " + email);
 
                     }
 
@@ -243,7 +261,7 @@ public class AddContactActivity extends AppCompatActivity {
                             Log.d("BDAY", birthday);
                         }
                     }
-                    birthdayCur.close();
+                    birthdayCur.close();   */
                 }
 
                 // Add the contact to the ArrayList
