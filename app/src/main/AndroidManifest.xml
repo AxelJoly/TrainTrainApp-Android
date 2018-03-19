@@ -7,7 +7,9 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
+
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
@@ -28,17 +30,30 @@
             </intent-filter>
         </activity>
         <activity android:name=".JourneyActivity" />
-        <activity android:name=".FavorisActivity" />
-        <activity android:name=".AddContactActivity" />
-        <activity android:name=".ShowContactActivity"></activity>
-        <activity android:name=".GeolocActivity"></activity>
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
+        <activity
+            android:name=".AddContactActivity"
+            android:label="@string/title_activity_add_contact"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FavorisActivity"
+            android:label="@string/title_activity_favoris"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".GeolocActivity"
+            android:label="@string/title_activity_geoloc"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ShowContactActivity"
+            android:label="@string/title_activity_show_contact"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
-
 
 </manifest>

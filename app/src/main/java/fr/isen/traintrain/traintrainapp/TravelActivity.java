@@ -44,9 +44,7 @@ import fr.isen.traintrain.traintrainapp.Entity.Journey;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 import fr.isen.traintrain.traintrainapp.Task.FeedReaderDbHelper;
 import fr.isen.traintrain.traintrainapp.Task.sqliteSave;
-import com.facebook.messenger.MessengerUtils;
-import com.facebook.messenger.MessengerThreadParams;
-import com.facebook.messenger.ShareToMessengerParams;
+
 
 import static java.security.AccessController.getContext;
 
@@ -298,10 +296,13 @@ public class TravelActivity extends AppCompatActivity
 
 
         }
+        if((this.gareDepartChoisi != null) &&(this.gareArriveeChoisi != null)){
+            Journey journey = new Journey(1, this.gareDepartChoisi, this.gareArriveeChoisi);
 
-        Journey journey = new Journey(1, this.gareDepartChoisi, this.gareArriveeChoisi);
+            new JourneyServiceTask().execute(journey);
+        }
 
-        new JourneyServiceTask().execute(journey);
+
     }
 
 
@@ -337,36 +338,40 @@ public class TravelActivity extends AppCompatActivity
 
 
         }
-        FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
+        if((this.gareDepartChoisi != null) &&(this.gareArriveeChoisi != null)) {
+            FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
 
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
 // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_DEPART, this.gareDepartChoisi.getName());
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_ARRIVEE, this.gareArriveeChoisi.getName());
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_ID_DEPART, this.gareDepartChoisi.getStop_id());
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_ID_ARRIVEE, this.gareArriveeChoisi.getStop_id());
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_ARRIVEE, this.gareArriveeChoisi.getStop_lat());
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_DEPART, this.gareDepartChoisi.getStop_lat());
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_ARRIVEE, this.gareArriveeChoisi.getStop_lon());
-        values.put(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_DEPART, this.gareDepartChoisi.getStop_lon());
+            ContentValues values = new ContentValues();
+            values.put(sqliteSave.FeedEntry.COLUMN_NAME_DEPART, this.gareDepartChoisi.getName());
+            values.put(sqliteSave.FeedEntry.COLUMN_NAME_ARRIVEE, this.gareArriveeChoisi.getName());
+            values.put(sqliteSave.FeedEntry.COLUMN_NAME_ID_DEPART, this.gareDepartChoisi.getStop_id());
+            values.put(sqliteSave.FeedEntry.COLUMN_NAME_ID_ARRIVEE, this.gareArriveeChoisi.getStop_id());
+            values.put(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_ARRIVEE, this.gareArriveeChoisi.getStop_lat());
+            values.put(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_DEPART, this.gareDepartChoisi.getStop_lat());
+            values.put(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_ARRIVEE, this.gareArriveeChoisi.getStop_lon());
+            values.put(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_DEPART, this.gareDepartChoisi.getStop_lon());
 
 // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(sqliteSave.FeedEntry.TABLE_NAME_JOURNEY, null, values);
-        AlertDialog alertDialog = new AlertDialog.Builder(TravelActivity.this).create();
-        alertDialog.setTitle("Ajouté aux favoris");
-        alertDialog.setMessage("Votre trajet favoris à bien été ajouté");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
 
-                        dialog.dismiss();
-                        Intent intent=new Intent(TravelActivity.this,FavorisActivity.class);
-                        startActivity(intent);
-                    }
-                });
-        alertDialog.show();
+
+            long newRowId = db.insert(sqliteSave.FeedEntry.TABLE_NAME_JOURNEY, null, values);
+            AlertDialog alertDialog = new AlertDialog.Builder(TravelActivity.this).create();
+            alertDialog.setTitle("Ajouté aux favoris");
+            alertDialog.setMessage("Votre trajet favoris à bien été ajouté");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.dismiss();
+                            Intent intent = new Intent(TravelActivity.this, FavorisActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+            alertDialog.show();
+        }
 
 
 

@@ -2,6 +2,7 @@ package fr.isen.traintrain.traintrainapp;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.DialogInterface;
@@ -13,34 +14,38 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Handler;
-import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
 import fr.isen.traintrain.traintrainapp.Adapter.GeolocAdapter;
-import fr.isen.traintrain.traintrainapp.Adapter.MyAdapter;
 import fr.isen.traintrain.traintrainapp.AsyncTask.StationAsyncTask;
 import fr.isen.traintrain.traintrainapp.Entity.AsyncResponse;
 import fr.isen.traintrain.traintrainapp.Entity.Geoloc;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 
-public class GeolocActivity extends AppCompatActivity implements LocationListener, AsyncResponse {
+public class GeolocActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,LocationListener, AsyncResponse {
+
+
     final String TAG = "GPS";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -74,6 +79,20 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geoloc);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -108,8 +127,75 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
             // get location
             getLocation();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.geoloc, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
 
+        if (id == R.id.nav_trajet) {
+            // Handle the camera action
+            Intent intent =new Intent(this,TravelActivity.class);
+
+            this.startActivity(intent);
+        } else if (id == R.id.nav_favoris) {
+
+            Log.d("main activity","favoris");
+            Intent intent =new Intent(this,FavorisActivity.class);
+
+            this.startActivity(intent);
+
+        }
+
+        else if(id == R.id.nav_recherche_contact){
+            Intent intent =new Intent(this,ShowContactActivity.class);
+
+            this.startActivity(intent);
+        }
+        else if(id == R.id.nav_ajout_contact){
+            Intent intent =new Intent(this,AddContactActivity.class);
+
+            this.startActivity(intent);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override
@@ -287,8 +373,8 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
 
     private void updateUI(Location loc) {
         Log.d(TAG, "updateUI");
-       // this.latitude.setText(Double.toString(loc.getLatitude()));
-       // this.longitude.setText(Double.toString(loc.getLongitude()));
+        // this.latitude.setText(Double.toString(loc.getLatitude()));
+        // this.longitude.setText(Double.toString(loc.getLongitude()));
         //tvTime.setText(DateFormat.getTimeInstance().format(loc.getTime()));
 
         Log.d("Location: ", loc.getLongitude() + " " + loc.getLatitude());
@@ -309,7 +395,7 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
         ipinf.execute();
 
 
-        }
+    }
 
 
 
@@ -357,25 +443,25 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
 
                 boolean repeated = false;
 
-                    for (Geoloc _c: this.geoloc) {
-                        if(_c.getStation().getName().equals(temp.getName()))
-                            repeated = true;
-                    }
-                    if(!repeated) {
-                       // this.stationsFiltered.add(temp);
-                        this.geoloc.add(new Geoloc(temp, Double.toString(d)));
-                        Log.d("Value", temp.getName());
-                    }
+                for (Geoloc _c: this.geoloc) {
+                    if(_c.getStation().getName().equals(temp.getName()))
+                        repeated = true;
                 }
-                //this.stationsFiltered.add(temp);
-    //                        this.distance.add(Double.toString(d));
-                //Log.d("INFO", "value of index " + index + ": " + d + "arret:" + temp.getName());
-
-                index++;
-
-
-
+                if(!repeated) {
+                    // this.stationsFiltered.add(temp);
+                    this.geoloc.add(new Geoloc(temp, Double.toString(d)));
+                    Log.d("Value", temp.getName());
+                }
             }
+            //this.stationsFiltered.add(temp);
+            //                        this.distance.add(Double.toString(d));
+            //Log.d("INFO", "value of index " + index + ": " + d + "arret:" + temp.getName());
+
+            index++;
+
+
+
+        }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.listGeoloc);
 
@@ -396,7 +482,7 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        }
+    }
 
 
 
@@ -430,7 +516,4 @@ public class GeolocActivity extends AppCompatActivity implements LocationListene
     public void initRecycleView(){
 
     }
-
-
 }
-
