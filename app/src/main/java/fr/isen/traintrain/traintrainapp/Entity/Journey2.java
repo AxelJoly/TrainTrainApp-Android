@@ -6,12 +6,86 @@ package fr.isen.traintrain.traintrainapp.Entity;
 
 public class Journey2 {
 
-    public String departure;
+    public String departure = null;
     public String arrival;
     public String departureFormat;
     public String arrivalFormat;
+    public String departureTime;
+    public String arrivalTime;
+    public String date;
     public String placeFrom;
     public String placeTo;
+
+    public String getDepartureTime() {
+
+        String hour;
+        String minutes;
+
+        if(departure != null) {
+            hour = departure.substring(9, 11);
+            minutes = departure.substring(11, 13);
+
+            departureTime = hour + ":" + minutes;
+
+            return departureTime;
+        }
+        else{
+            departureTime = "non défini";
+            return departureTime;
+        }
+    }
+
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public String getArrivalTime() {
+
+        String hour;
+        String minutes;
+
+        if(arrival != null) {
+            hour = arrival.substring(9, 11);
+            minutes = arrival.substring(11, 13);
+
+            arrivalTime = hour + ":" + minutes;
+
+            return arrivalTime;
+        }
+        else{
+            arrivalTime = "non défini";
+            return arrivalTime;
+        }
+    }
+
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public String getDate() {
+
+        String day;
+        String month;
+        String year;
+
+        if (departure != null) {
+            year = departure.substring(0, 4);
+            month = departure.substring(4, 6);
+            day = departure.substring(6, 8);
+
+            date = day + "/" + month + "/" + year;
+            return date;
+        }
+        else{
+            date = "non défini";
+            return date;
+        }
+
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getChange() {
         return change;

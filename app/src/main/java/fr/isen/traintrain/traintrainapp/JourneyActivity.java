@@ -2,6 +2,7 @@ package fr.isen.traintrain.traintrainapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,14 +16,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.isen.traintrain.traintrainapp.Adapter.GeolocAdapter;
 import fr.isen.traintrain.traintrainapp.Adapter.MyAdapterJourney;
 import fr.isen.traintrain.traintrainapp.AsyncTask.JourneyServiceTask;
 import fr.isen.traintrain.traintrainapp.Entity.Journey2;
 
 public class JourneyActivity extends AppCompatActivity {
 
-    private RecyclerView journeyView;
-    private MyAdapterJourney mAdapter;
+    //private RecyclerView journeyView;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class JourneyActivity extends AppCompatActivity {
     public JSONArray getData(String dataString){
         JSONObject dataJSON = null;
         JSONArray journeyArray = null;
-        List<Journey2> journeys = new ArrayList<>();
+        ArrayList<Journey2> journeys = new ArrayList<>();
         if(dataString!= null)
         {
             try {
@@ -126,14 +130,25 @@ public class JourneyActivity extends AppCompatActivity {
 
                 }
 
-                //MyAdapterJourney.notifyDataSetChanged();
-                journeyView = (RecyclerView)findViewById(R.id.journeyView);
-                mAdapter = new MyAdapterJourney(this, journeys);
-                journeyView.setAdapter(mAdapter);
-                journeyView.setLayoutManager(new LinearLayoutManager(this));
+
+                mRecyclerView = (RecyclerView) findViewById(R.id.journeyView);
+
+                // use this setting to improve performance if you know that changes
+                // in content do not change the layout size of the RecyclerView
+                mRecyclerView.setHasFixedSize(true);
+
+                // use a linear layout manager
+                mLayoutManager = new LinearLayoutManager(this);
+                mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+                // specify an adapter (see also next example)
+                mAdapter = new MyAdapterJourney(this.getApplicationContext(), journeys);
+                mRecyclerView.setAdapter(mAdapter);
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),1);
+                mRecyclerView.addItemDecoration(dividerItemDecoration);
 
                 return (journeyArray);
-                //System.out.print(journeysJson.toString());
             }
             catch (Throwable t) {
                 Log.e("JSON", "Malformed JSON: \"" + dataString + "\"");
