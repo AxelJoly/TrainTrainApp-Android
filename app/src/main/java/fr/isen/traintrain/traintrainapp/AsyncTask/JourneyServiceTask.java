@@ -53,17 +53,19 @@ public class JourneyServiceTask  extends AsyncTask<Journey, Integer, String> {
         this.env = new Environment();
         String url = env.getSNCF_API_ROOT() + "from=" + journey[0].getDeparture().getStop_lon() + "%3B" + journey[0].getDeparture().getStop_lat() + "&to=" + journey[0].getArrival().getStop_lon() + "%3B" + journey[0].getArrival().getStop_lat() + "&count=10&";
         Log.d("Mon url", url);
+
         try{
             String data = run(url);
             System.out.println("mon json:" + data);
 
             Log.d("mon json: ", data);
 
+            return data;
+
         }catch(IOException e){
             Log.d("error", e.getLocalizedMessage());
+            return null;
         }
-
-      return "lol";
     }
 
 

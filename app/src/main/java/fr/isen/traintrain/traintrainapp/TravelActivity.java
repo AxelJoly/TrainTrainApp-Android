@@ -33,6 +33,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.ExecutionException;
 
 import fr.isen.traintrain.traintrainapp.AsyncTask.JourneyServiceTask;
 import fr.isen.traintrain.traintrainapp.AsyncTask.StationAsyncTask;
@@ -61,6 +62,7 @@ public class TravelActivity extends AppCompatActivity
     protected TextView gareArrivee;
     protected Station gareArriveeChoisi;
     public Button geoloc;
+    public Button searchButton;
 
 
     @Override
@@ -69,6 +71,7 @@ public class TravelActivity extends AppCompatActivity
         setContentView(R.layout.activity_travel);
         this.stationsName = new String[]{};
         this.geoloc = findViewById(R.id.geoloc);
+        this.searchButton = findViewById(R.id.search);
         this.gareDepart=(TextView)findViewById(R.id.gare_depart);
         this.gareArrivee=(TextView)findViewById(R.id.gare_arrivee);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -106,6 +109,11 @@ public class TravelActivity extends AppCompatActivity
             public void onClick(View v) {
                 toGeoloc(v);
             }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { search(v);}
         });
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -296,13 +304,22 @@ public class TravelActivity extends AppCompatActivity
 
 
         }
-        if((this.gareDepartChoisi != null) &&(this.gareArriveeChoisi != null)){
+        if((this.gareDepartChoisi != null) &&(this.gareArriveeChoisi != null)) {
             Journey journey = new Journey(1, this.gareDepartChoisi, this.gareArriveeChoisi);
 
-            new JourneyServiceTask().execute(journey);
+            Intent intent = new Intent(this, JourneyActivity.class);
+            String journeyData = null;
+            try {
+                journeyData = new JourneyServiceTask().execute(journey).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            Log.i("journeyData :", journeyData);
+            intent.putExtra("journeys", journeyData);
+            startActivity(intent);
         }
-
-
     }
 
 
