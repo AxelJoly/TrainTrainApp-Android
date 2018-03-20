@@ -29,7 +29,7 @@ public class JourneyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey);
         String journeysString = getIntent().getStringExtra("journeys");
-        JSONArray journeysJson = toJson(journeysString);
+        JSONArray journeysJson = getData(journeysString);
         Log.i("Contenu JourneyString", journeysString);
         Log.i("Contenu JourneyJson", journeysJson.toString());
 
@@ -37,7 +37,7 @@ public class JourneyActivity extends AppCompatActivity {
 
     }
 
-    public JSONArray toJson(String dataString){
+    public JSONArray getData(String dataString){
         JSONObject dataJSON = null;
         JSONArray journeyArray = null;
         List<Journey2> journeys = new ArrayList<>();
@@ -55,6 +55,7 @@ public class JourneyActivity extends AppCompatActivity {
                     add.departure = obj.getString("departure_date_time");
                     add.arrival = obj.getString("arrival_date_time");
                     add.getDuration();
+                    int counter = 0;
                     //Log.i("departure contenu ", add.timeDisplayDeparture(add.getDeparture()));
                     //Log.i("arrival contenu ", add.timeDisplayArrival(add.getArrival()));
                     //Log.i("duration contenu ", add.getDuration());
@@ -81,7 +82,7 @@ public class JourneyActivity extends AppCompatActivity {
                     {
                         //Log.i("For loop PlaceTo", String.valueOf(j));
                         JSONObject section = sectionsArray.getJSONObject(j);
-                        //Log.i("contenu section", section.toString());
+                        Log.i("contenu section", section.toString());
                         JSONObject sectionTo = section.getJSONObject("to");
                         //Log.i("contenu sectionTo", sectionTo.toString());
                         //Log.i("contenu sectionTo get", sectionTo.getString("embedded_type"));
@@ -94,6 +95,24 @@ public class JourneyActivity extends AppCompatActivity {
                             break;
                         }
                     }
+                    for (int j = 0 ; j < sectionsArray.length() ; j++)
+                    {
+                        JSONObject section = sectionsArray.getJSONObject(j);
+                        JSONObject displayInfo;
+                        if( !section.isNull("display_informations"))
+                        {
+                            counter++;
+                        }
+                    }
+                    if((counter-1)>0){
+                        if((counter-1)>1){
+                            add.setChange(String.valueOf(counter-1)+" changements");
+                        } else {
+                            add.setChange(String.valueOf(counter-1)+" changement");
+                        }
+                    } else {
+                        add.setChange("trajet direct");
+                    }
                     add.setDepartureFormat(add.departure);
                     add.setArrivalFormat(add.arrival);
                     journeys.add(add);
@@ -103,6 +122,7 @@ public class JourneyActivity extends AppCompatActivity {
                     Log.i("journey contenu : ", journeys.get(i).getDuration());
                     Log.i("journey contenu : ", journeys.get(i).getPlaceFrom());
                     Log.i("journey contenu : ", journeys.get(i).getPlaceTo());
+                    Log.i("journey contenu : ", journeys.get(i).getChange());
 
                 }
 

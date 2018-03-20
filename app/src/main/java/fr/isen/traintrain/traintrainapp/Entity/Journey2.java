@@ -13,6 +13,16 @@ public class Journey2 {
     public String placeFrom;
     public String placeTo;
 
+    public String getChange() {
+        return change;
+    }
+
+    public void setChange(String change) {
+        this.change = change;
+    }
+
+    public String change;
+
     public String getDepartureFormat() {
         return departureFormat;
     }
