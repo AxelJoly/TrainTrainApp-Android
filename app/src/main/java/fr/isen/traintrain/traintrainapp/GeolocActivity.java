@@ -81,7 +81,7 @@ public class GeolocActivity extends AppCompatActivity
         setContentView(R.layout.activity_geoloc);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        setTitle("Géolocalisation");
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

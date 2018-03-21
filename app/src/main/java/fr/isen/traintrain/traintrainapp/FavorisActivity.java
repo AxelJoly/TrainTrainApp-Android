@@ -43,7 +43,7 @@ public class FavorisActivity extends AppCompatActivity
         setContentView(R.layout.activity_favoris);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        setTitle("Favoris");
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

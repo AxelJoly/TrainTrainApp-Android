@@ -32,6 +32,7 @@ public class JourneyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey);
+        setTitle("Résultats trajets");
         String journeysString = getIntent().getStringExtra("journeys");
         JSONArray journeysJson = getData(journeysString);
         Log.i("Contenu JourneyString", journeysString);
@@ -115,7 +116,7 @@ public class JourneyActivity extends AppCompatActivity {
                             add.setChange(String.valueOf(counter-1)+" changement");
                         }
                     } else {
-                        add.setChange("trajet direct");
+                        add.setChange("Trajet direct");
                     }
                     add.setDepartureFormat(add.departure);
                     add.setArrivalFormat(add.arrival);

@@ -7,47 +7,57 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="30dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_menu_train" />
 
     <TextView
         android:id="@+id/date"
-        android:layout_width="89dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="2dp"
+        android:layout_width="112dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/duration"
-        android:layout_width="125dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="2dp"
+        android:layout_width="124dp"
+        android:layout_height="27dp"
         android:layout_marginTop="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/date"
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/departTime"
-        android:layout_width="78dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="28dp"
+        android:layout_width="64dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="9dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
         android:id="@+id/arrivalTime"
-        android:layout_width="79dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="28dp"
+        android:layout_width="62dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="9dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/departTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/change" />
 
@@ -55,8 +65,9 @@
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="14dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
         android:rotation="270"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/departTime"
@@ -66,61 +77,74 @@
         android:id="@+id/textView6"
         android:layout_width="9dp"
         android:layout_height="32dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="16dp"
+
+        android:layout_marginTop="8dp"
         android:text="|"
+        android:textColor="@android:color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="9dp"
+        android:layout_width="11dp"
         android:layout_height="32dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="|"
+        android:textColor="@android:color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/date"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="48dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="2dp"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
         android:layout_marginTop="16dp"
         android:text="Date : "
-        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/change"
-        android:layout_width="188dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="329dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Trajet"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/departPlace"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/departTime" />
 
     <TextView
         android:id="@+id/departPlace"
-        android:layout_width="205dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="9dp"
+        android:layout_width="293dp"
+        android:layout_height="21dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toEndOf="@+id/departTime"
         app:layout_constraintTop_toBottomOf="@+id/date" />
 
     <TextView
         android:id="@+id/arrivalPlace"
-        android:layout_width="203dp"
-        android:layout_height="32dp"
+        android:layout_width="304dp"
+        android:layout_height="24dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="9dp"
         android:layout_marginTop="9dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/change"
         app:layout_constraintStart_toEndOf="@+id/arrivalTime"
         app:layout_constraintTop_toBottomOf="@+id/change" />
 

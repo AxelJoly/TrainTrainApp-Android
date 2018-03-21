@@ -42,7 +42,7 @@ public class ShowContactActivity extends AppCompatActivity
         setContentView(R.layout.activity_show_contact);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        setTitle("Recherche contacts");
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
