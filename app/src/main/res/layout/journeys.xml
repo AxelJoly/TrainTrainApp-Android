@@ -7,30 +7,30 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="30dp"
-        android:layout_height="31dp"
+        android:layout_width="18dp"
+        android:layout_height="25dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_menu_train" />
 
     <TextView
         android:id="@+id/date"
-        android:layout_width="112dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="99dp"
+        android:layout_height="24dp"
         android:layout_marginTop="16dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/duration"
         android:layout_width="124dp"
-        android:layout_height="27dp"
+        android:layout_height="24dp"
         android:layout_marginTop="16dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
@@ -43,18 +43,16 @@
         android:layout_width="64dp"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/arrivalTime"
-        android:layout_width="62dp"
+        android:layout_width="58dp"
         android:layout_height="24dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/departTime"
@@ -66,8 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="16dp"
         android:rotation="270"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/departTime"
@@ -98,8 +95,8 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="50dp"
-        android:layout_height="25dp"
+        android:layout_width="41dp"
+        android:layout_height="24dp"
         android:layout_marginTop="16dp"
         android:text="Date : "
         android:textColor="@android:color/black"
@@ -112,7 +109,6 @@
         android:layout_width="329dp"
         android:layout_height="25dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="Trajet"
         android:textColor="@android:color/black"
         android:textSize="14sp"
@@ -124,10 +120,9 @@
     <TextView
         android:id="@+id/departPlace"
         android:layout_width="293dp"
-        android:layout_height="21dp"
+        android:layout_height="19dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="6dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +135,6 @@
         android:layout_width="304dp"
         android:layout_height="24dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="9dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
