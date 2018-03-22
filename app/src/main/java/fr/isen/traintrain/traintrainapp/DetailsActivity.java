@@ -15,6 +15,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -194,63 +195,16 @@ public class DetailsActivity extends AppCompatActivity
 
     public void share(View v){
         Log.d("detail activity","share");
-        FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
 
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        String[] projection = {
-                BaseColumns._ID,
-                sqliteSave.FeedEntry.COLUMN_NAME_CONTACT,
-                sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER,
 
-        };
 
-        Cursor cursor = db.query(
-                sqliteSave.FeedEntry.TABLE_NAME_CONTACT,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null             // The sort order
-        );
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        /// Share with sms
-        ///////////////////////////////////////////////////////////////////////////////////////////
-        while(cursor.moveToNext()) {
-
-            Log.d("name = ",cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_CONTACT)));
-            Log.d("phone number = ",cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER)));
-
-            //  this.trips.add(new Trip(cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ID_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ID_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_ARRIVEE))));
-
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER))));
-            intent.putExtra("sms_body", "Mon train part à "+this.journeysString.getDepartureTime());
-            startActivity(intent);
-
-        }
-        cursor.close();
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        /// Share with messenger
-        ///////////////////////////////////////////////////////////////////////////////////////////
-
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent
-                .putExtra(Intent.EXTRA_TEXT,
-                        "Mon train part à "+this.journeysString.getDepartureTime());
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.facebook.orca");
-        try {
-            startActivity(sendIntent);
-        }
-        catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this,"Please Install Facebook Messenger", Toast.LENGTH_LONG).show();
-        }
+        final String msg = "Mon train part à "+this.journeysString.getDepartureTime();
 
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+
 
 
 
@@ -261,14 +215,73 @@ public class DetailsActivity extends AppCompatActivity
 
 
 
+
+                FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(DetailsActivity.this);
+
+                SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+                String[] projection = {
+                        BaseColumns._ID,
+                        sqliteSave.FeedEntry.COLUMN_NAME_CONTACT,
+                        sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER,
+
+                };
+
+                Cursor cursor = db.query(
+                        sqliteSave.FeedEntry.TABLE_NAME_CONTACT,   // The table to query
+                        projection,             // The array of columns to return (pass null to get all)
+                        null,              // The columns for the WHERE clause
+                        null,          // The values for the WHERE clause
+                        null,                   // don't group the rows
+                        null,                   // don't filter by row groups
+                        null             // The sort order
+                );
+                /////////////////////////////////////////////////////////////////////////////////////////////
+                /// Share with sms
+                ///////////////////////////////////////////////////////////////////////////////////////////
+                while(cursor.moveToNext()) {
+
+                    Log.d("name = ",cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_CONTACT)));
+                    Log.d("phone number = ",cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER)));
+
+                    //  this.trips.add(new Trip(cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ID_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ID_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LONGITUDE_ARRIVEE)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_DEPART)),cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_LATITUDE_ARRIVEE))));
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + cursor.getString(cursor.getColumnIndexOrThrow(sqliteSave.FeedEntry.COLUMN_NAME_PHONE_NUMBER))));
+                    intent.putExtra("sms_body", msg);
+                    startActivity(intent);
+
+                }
+                cursor.close();
+
+
+
             }
         });
 
         alertDialog.setNegativeButton("Messenger", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
+
+                /////////////////////////////////////////////////////////////////////////////////////////////
+                /// Share with messenger
+                ///////////////////////////////////////////////////////////////////////////////////////////
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent
+                        .putExtra(Intent.EXTRA_TEXT,
+                                msg);
+                sendIntent.setType("text/plain");
+                sendIntent.setPackage("com.facebook.orca");
+                try {
+                    startActivity(sendIntent);
+                }
+                catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(DetailsActivity.this,"Please Install Facebook Messenger", Toast.LENGTH_LONG).show();
+                }
             }
         });
+
 
         alertDialog.show();
     }
