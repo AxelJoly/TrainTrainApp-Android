@@ -99,7 +99,7 @@ public class MyAdapterJourney extends RecyclerView.Adapter<MyAdapterJourney.MyVi
             mDate = (TextView)v.findViewById(R.id.date);
             mDurat = (TextView)v.findViewById(R.id.duration);
             mDepartPlace = (TextView)v.findViewById(R.id.departPlace);
-            mDepartTime = (TextView)v.findViewById(R.id.waitTitle);
+            mDepartTime = (TextView)v.findViewById(R.id.departTime);
             mArrivalPlace = (TextView)v.findViewById(R.id.arrivalPlace);
             mArrivalTime = (TextView)v.findViewById(R.id.arrivalTime);
             mChange = (TextView)v.findViewById(R.id.change);
