@@ -15,7 +15,6 @@ import android.widget.TextView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import fr.isen.traintrain.traintrainapp.Entity.ClickListener;
 import fr.isen.traintrain.traintrainapp.Entity.Details;
 import fr.isen.traintrain.traintrainapp.Entity.Journey2;
 import fr.isen.traintrain.traintrainapp.R;
@@ -40,7 +39,7 @@ public class MyAdapterDetails extends RecyclerView.Adapter<MyAdapterDetails.View
 
     @Override
     public MyAdapterDetails.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.details, parent, false);
         MyAdapterDetails.ViewHolder viewHolder = new MyAdapterDetails.ViewHolder(view, context, sections, journey);
         return viewHolder;
     }

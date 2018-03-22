@@ -21,6 +21,7 @@ public class Journey2 implements Serializable {
     public String date;
     public String placeFrom;
     public String placeTo;
+    public String journey;
 
     public String journey;
 

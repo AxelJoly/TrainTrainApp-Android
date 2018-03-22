@@ -16,8 +16,6 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 import java.security.acl.Group;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.ListIterator;
 
 import fr.isen.traintrain.traintrainapp.DetailsActivity;
@@ -96,10 +94,13 @@ public class MyAdapterJourney extends RecyclerView.Adapter<MyAdapterJourney.MyVi
 
         public MyViewHolder(View v,ClickListener listener,ArrayList<Journey2> journeys,Activity currentActivity, Class<DetailsActivity> nextView) {
             super(v);
+            this.arrayList = arrayList;
+            this.ctx = ctx;
+            v.setOnClickListener(this);
             mDate = (TextView)v.findViewById(R.id.date);
             mDurat = (TextView)v.findViewById(R.id.duration);
             mDepartPlace = (TextView)v.findViewById(R.id.departPlace);
-            mDepartTime = (TextView)v.findViewById(R.id.departTime);
+            mDepartTime = (TextView)v.findViewById(R.id.waitTitle);
             mArrivalPlace = (TextView)v.findViewById(R.id.arrivalPlace);
             mArrivalTime = (TextView)v.findViewById(R.id.arrivalTime);
             mChange = (TextView)v.findViewById(R.id.change);
