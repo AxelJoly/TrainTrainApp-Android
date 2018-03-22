@@ -1,7 +1,7 @@
 package fr.isen.traintrain.traintrainapp.Adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,12 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.ListIterator;
 
+import fr.isen.traintrain.traintrainapp.DetailsActivity;
 import fr.isen.traintrain.traintrainapp.Entity.Journey2;
-import fr.isen.traintrain.traintrainapp.Entity.Station;
 import fr.isen.traintrain.traintrainapp.R;
 
 /**
@@ -39,7 +37,7 @@ public class MyAdapterJourney extends RecyclerView.Adapter<MyAdapterJourney.View
     @Override
     public MyAdapterJourney.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.journeys, parent, false);
-        MyAdapterJourney.ViewHolder viewHolder = new MyAdapterJourney.ViewHolder(view);
+        MyAdapterJourney.ViewHolder viewHolder = new MyAdapterJourney.ViewHolder(view, context, journeys);
         return viewHolder;
     }
 
@@ -62,7 +60,7 @@ public class MyAdapterJourney extends RecyclerView.Adapter<MyAdapterJourney.View
         return journeys.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
         public TextView mDate;
         public TextView mDurat;
@@ -71,18 +69,34 @@ public class MyAdapterJourney extends RecyclerView.Adapter<MyAdapterJourney.View
         public TextView mArrivalTime;
         public TextView mArrivalPlace;
         public TextView mChange;
+        ArrayList<Journey2> arrayList = new ArrayList<Journey2>();
+        Context ctx;
 
-        public ViewHolder(View v) {
+        public ViewHolder(View v, Context ctx, ArrayList<Journey2> arrayList) {
             super(v);
+            this.arrayList = arrayList;
+            this.ctx = ctx;
+            v.setOnClickListener(this);
             mDate = (TextView)v.findViewById(R.id.date);
             mDurat = (TextView)v.findViewById(R.id.duration);
             mDepartPlace = (TextView)v.findViewById(R.id.departPlace);
-            mDepartTime = (TextView)v.findViewById(R.id.departTime);
+            mDepartTime = (TextView)v.findViewById(R.id.waitTitle);
             mArrivalPlace = (TextView)v.findViewById(R.id.arrivalPlace);
             mArrivalTime = (TextView)v.findViewById(R.id.arrivalTime);
-            mChange = (TextView)v.findViewById(R.id.change);
+            mChange = (TextView)v.findViewById(R.id.line3);
 
 
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Journey2 details = this.arrayList.get(position);
+            Log.d("Mon objet", details.getArrivalFormat().toString());
+            Intent intent = new Intent(this.ctx, DetailsActivity.class);
+            intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("details",details);
+            this.ctx.startActivity(intent);
         }
 
     }
