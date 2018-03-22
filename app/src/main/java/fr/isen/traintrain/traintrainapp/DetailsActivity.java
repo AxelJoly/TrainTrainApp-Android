@@ -54,7 +54,7 @@ public class DetailsActivity extends AppCompatActivity
         Intent thisIntent =getIntent();
        /* json=(String)thisIntent.getExtras().get("json");
         Log.d("detail activity json = ", json);*/
-         this.journeysString = (Journey2) getIntent().getSerializableExtra("details");
+        this.journeysString = (Journey2) getIntent().getSerializableExtra("details");
         Log.d("detail activity",journeysString.getJourney());
         ArrayList<Details> sectionList = new ArrayList<Details>();
         try {
@@ -89,15 +89,6 @@ public class DetailsActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -146,12 +137,6 @@ public class DetailsActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.details, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -168,30 +153,44 @@ public class DetailsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_trajet) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            Log.d("main activity","trajet");
+            Intent intent =new Intent(this,TravelActivity.class);
 
-        } else if (id == R.id.nav_slideshow) {
+            this.startActivity(intent);
+        } else if (id == R.id.nav_favoris) {
 
-        } else if (id == R.id.nav_manage) {
+            Log.d("main activity","favoris");
+            Intent intent =new Intent(this,FavorisActivity.class);
 
-        } else if (id == R.id.nav_share) {
+            this.startActivity(intent);
 
-        } else if (id == R.id.nav_send) {
+        }
 
+        else if(id == R.id.nav_recherche_contact){
+            Intent intent =new Intent(this,ShowContactActivity.class);
+
+            this.startActivity(intent);
+        }
+        else if(id == R.id.nav_ajout_contact){
+            Intent intent =new Intent(this,AddContactActivity.class);
+
+            this.startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     public void share(View v){
         Log.d("detail activity","share");
