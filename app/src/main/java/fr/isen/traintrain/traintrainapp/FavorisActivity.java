@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import fr.isen.traintrain.traintrainapp.Adapter.MyAdapter;
+import fr.isen.traintrain.traintrainapp.Entity.ClickListener;
 import fr.isen.traintrain.traintrainapp.Entity.Trip;
 import fr.isen.traintrain.traintrainapp.Task.FeedReaderDbHelper;
 import fr.isen.traintrain.traintrainapp.Task.sqliteSave;
@@ -132,7 +133,16 @@ public class FavorisActivity extends AppCompatActivity
 
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(this,this.trips);
+        mAdapter = new MyAdapter(this,this.trips,new ClickListener() {
+            @Override public void onPositionClicked(int position) {
+                // callback performed on click
+               // Log.d("favoris",this.trips.get);
+            }
+
+            @Override public void onLongClicked(int position) {
+                // callback performed on click
+            }},this,JourneyActivity.class,TravelActivity.class);
+
         mRecyclerView.setAdapter(mAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 1);
@@ -198,5 +208,14 @@ public class FavorisActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public void launch(View view){
+        Log.d("favoris","launch");
+    }
+
+    public void delete(View view){
+        Log.d("favoris","delete");
     }
 }

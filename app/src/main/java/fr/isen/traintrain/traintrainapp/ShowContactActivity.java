@@ -1,5 +1,6 @@
 package fr.isen.traintrain.traintrainapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import fr.isen.traintrain.traintrainapp.Adapter.MyAdapterContact;
+import fr.isen.traintrain.traintrainapp.Entity.ClickListener;
 import fr.isen.traintrain.traintrainapp.Entity.Contact;
 import fr.isen.traintrain.traintrainapp.Task.FeedReaderDbHelper;
 import fr.isen.traintrain.traintrainapp.Task.sqliteSave;
@@ -113,7 +115,15 @@ public class ShowContactActivity extends AppCompatActivity
 
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapterContact(this,this.contacts);
+        mAdapter = new MyAdapterContact(this,this.contacts,this,TravelActivity.class,new ClickListener() {
+            @Override public void onPositionClicked(int position) {
+                // callback performed on click
+                // Log.d("favoris",this.trips.get);
+            }
+
+            @Override public void onLongClicked(int position) {
+                // callback performed on click
+            }});
         mRecyclerView.setAdapter(mAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 1);

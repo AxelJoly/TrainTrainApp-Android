@@ -37,6 +37,7 @@ import java.util.concurrent.ExecutionException;
 
 import fr.isen.traintrain.traintrainapp.AsyncTask.JourneyServiceTask;
 import fr.isen.traintrain.traintrainapp.AsyncTask.StationAsyncTask;
+import fr.isen.traintrain.traintrainapp.AsyncTask.TripAsyncTask;
 import fr.isen.traintrain.traintrainapp.Entity.AsyncResponse;
 import fr.isen.traintrain.traintrainapp.Entity.Contact;
 import fr.isen.traintrain.traintrainapp.Entity.Geoloc;
@@ -319,6 +320,8 @@ public class TravelActivity extends AppCompatActivity
             Log.i("journeyData :", journeyData);
             intent.putExtra("journeys", journeyData);
             startActivity(intent);
+
+
         }
     }
 

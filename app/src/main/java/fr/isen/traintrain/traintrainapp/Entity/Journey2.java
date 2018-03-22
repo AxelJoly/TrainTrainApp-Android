@@ -4,7 +4,7 @@ package fr.isen.traintrain.traintrainapp.Entity;
  * Created by ruiz on 19/03/2018.
  */
 
-public class Journey2 {
+public class Journey2  {
 
     public String departure = null;
     public String arrival;
