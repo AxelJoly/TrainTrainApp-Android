@@ -94,8 +94,7 @@ public class MyAdapterJourney extends RecyclerView.Adapter<MyAdapterJourney.MyVi
 
         public MyViewHolder(View v,ClickListener listener,ArrayList<Journey2> journeys,Activity currentActivity, Class<DetailsActivity> nextView) {
             super(v);
-            this.arrayList = arrayList;
-            this.ctx = ctx;
+
             v.setOnClickListener(this);
             mDate = (TextView)v.findViewById(R.id.date);
             mDurat = (TextView)v.findViewById(R.id.duration);
