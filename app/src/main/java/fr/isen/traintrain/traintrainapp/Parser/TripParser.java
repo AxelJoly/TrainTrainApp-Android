@@ -54,6 +54,7 @@ public class TripParser {
                     //Log.i("arrival contenu ", add.timeDisplayArrival(add.getArrival()));
                     //Log.i("duration contenu ", add.getDuration());
                     JSONArray sectionsArray = obj.getJSONArray("sections");
+                    Log.d("trip parser",sectionsArray.toString());
                     //Log.i("contenu sectionsArray", sectionsArray.toString());
                     for (int j = 0 ; j < sectionsArray.length() ; j++)
                     {
@@ -109,6 +110,7 @@ public class TripParser {
                     }
                     add.setDepartureFormat(add.departure);
                     add.setArrivalFormat(add.arrival);
+                    add.setJourney(obj);
                     journeys.add(add);
                     Log.i("index journey", String.valueOf(i));
                     Log.i("journey contenu : ", journeys.get(i).getDepartureFormat());

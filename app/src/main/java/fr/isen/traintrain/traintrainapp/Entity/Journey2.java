@@ -1,10 +1,16 @@
 package fr.isen.traintrain.traintrainapp.Entity;
 
+import android.os.Parcelable;
+
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
 /**
  * Created by ruiz on 19/03/2018.
  */
 
-public class Journey2  {
+public class Journey2 implements Serializable {
 
     public String departure = null;
     public String arrival;
@@ -15,6 +21,16 @@ public class Journey2  {
     public String date;
     public String placeFrom;
     public String placeTo;
+
+    public String journey;
+
+    public String getJourney() {
+        return journey;
+    }
+
+    public void setJourney(JSONObject journey) {
+        this.journey = journey.toString();
+    }
 
     public String getDepartureTime() {
 

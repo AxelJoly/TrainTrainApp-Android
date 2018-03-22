@@ -23,6 +23,7 @@ import fr.isen.traintrain.traintrainapp.Adapter.GeolocAdapter;
 import fr.isen.traintrain.traintrainapp.Adapter.MyAdapterJourney;
 import fr.isen.traintrain.traintrainapp.AsyncTask.JourneyServiceTask;
 import fr.isen.traintrain.traintrainapp.AsyncTask.TripAsyncTask;
+import fr.isen.traintrain.traintrainapp.Entity.ClickListener;
 import fr.isen.traintrain.traintrainapp.Entity.Journey2;
 import fr.isen.traintrain.traintrainapp.Entity.Station;
 import fr.isen.traintrain.traintrainapp.Entity.TripAsyncResponse;
@@ -75,7 +76,15 @@ public class JourneyActivity extends AppCompatActivity implements TripAsyncRespo
 
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapterJourney(this.getApplicationContext(), journeys);
+        mAdapter = new MyAdapterJourney(this.getApplicationContext(), journeys,new ClickListener() {
+            @Override public void onPositionClicked(int position) {
+                // callback performed on click
+                // Log.d("favoris",this.trips.get);
+            }
+
+            @Override public void onLongClicked(int position) {
+                // callback performed on click
+            }},this,DetailsActivity.class);
         mRecyclerView.setAdapter(mAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),1);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
