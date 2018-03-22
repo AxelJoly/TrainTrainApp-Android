@@ -119,6 +119,7 @@ public class JourneyActivity extends AppCompatActivity {
                     }
                     add.setDepartureFormat(add.departure);
                     add.setArrivalFormat(add.arrival);
+                    add.setJourney(obj);
                     journeys.add(add);
                     Log.i("index journey", String.valueOf(i));
                     Log.i("journey contenu : ", journeys.get(i).getDepartureFormat());
@@ -127,6 +128,7 @@ public class JourneyActivity extends AppCompatActivity {
                     Log.i("journey contenu : ", journeys.get(i).getPlaceFrom());
                     Log.i("journey contenu : ", journeys.get(i).getPlaceTo());
                     Log.i("journey contenu : ", journeys.get(i).getChange());
+                    Log.i("journey contenu JSON", add.getJourney());
 
                 }
 

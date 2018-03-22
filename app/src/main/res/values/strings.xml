@@ -10,4 +10,5 @@
     <string name="title_activity_favoris">FavorisActivity</string>
     <string name="title_activity_geoloc">GeolocActivity</string>
     <string name="title_activity_show_contact">ShowContactActivity</string>
+    <string name="title_activity_details">DetailsActivity</string>
 </resources>
